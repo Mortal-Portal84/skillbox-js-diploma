@@ -1,3 +1,2 @@
-window.addEventListener('DOMContentLoaded', () => {
+import '../scss/style.scss'
 
-});
