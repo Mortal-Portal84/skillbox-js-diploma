@@ -43,6 +43,7 @@
     transform: translateX(-100%);
     transition: transform $transition;
     z-index: 2;
+    pointer-events: auto;
   }
 
   &__heading {
