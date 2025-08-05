@@ -13,14 +13,20 @@ closeBurgerMenuBtn?.addEventListener('click', () => {
   burgerMenu?.classList.remove('main-menu--active')
 })
 
-// Close burger menu on clock to any empty area
+// City location chose
+const cityListButton = document.querySelector('.location__city')
+const locationCityName = document.querySelector('.location__city-name')
+const locationCityList = document.querySelectorAll('.location__sublink')
 
-// document.addEventListener('click', (event) => {
-//   const target = event.target as HTMLElement;
-//   const isInsideContent = document.querySelector('.main-menu__wrapper')?.contains(target)
-//   const isClickOnButton = headerButtonMenu?.contains(target)
-//
-//   if (!isInsideContent && !isClickOnButton) {
-//     burgerMenu?.classList.remove('main-menu--active')
-//   }
-// })
+cityListButton?.addEventListener('click', () => {
+  cityListButton?.classList.toggle('location__city--active')
+})
+
+locationCityList.forEach((cityName) => {
+  cityName.addEventListener('click', () => {
+    if (!locationCityName) return
+
+    locationCityName.textContent = cityName.textContent
+    cityListButton?.classList.remove('location__city--active')
+  })
+})
