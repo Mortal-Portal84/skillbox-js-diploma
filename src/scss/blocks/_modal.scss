@@ -1,0 +1,28 @@
+#modal {
+  display: flex;
+  align-items: center;
+  padding: 3em;
+  width: 26em;
+  border: solid 1px transparent;
+  border-radius: 0.6em;
+}
+
+#modal::backdrop {
+  background: rgba(54, 51, 51, 0.62);
+}
+
+.modal-window__text {
+  font-size: 1.7em;
+  font-weight: bold;
+  line-height: 1.8em;
+  text-align: center;
+}
+
+.modal-window__close-button {
+  position: absolute;
+  top: 0;
+  right: 4px;
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+}

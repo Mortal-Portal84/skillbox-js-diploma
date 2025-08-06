@@ -1,4 +1,5 @@
 import '../scss/style.scss'
+import { ModalWindow } from './components'
 
 // Burger-menu's interactivity
 const headerButtonMenu = document.querySelector('.header__catalog-btn')
@@ -44,4 +45,27 @@ accordionButtons.forEach((button) => {
 
     button.classList.toggle('accordion__btn--active')
   })
+})
+
+// Form Validation
+const form = document.querySelector('.questions__form')
+
+form?.addEventListener('submit', (e) => {
+  e.preventDefault()
+
+  const submit = fetch('https://httpbin.org/pos', {
+    method: 'POST'
+  })
+
+  submit
+    .then((response) => {
+      if (response.ok) {
+        ModalWindow('Благодарим за обращение!')
+      } else {
+        throw new Error('Не удалось отправить обращение')
+      }
+    })
+    .catch((error) => {
+      ModalWindow(error.message)
+    })
 })
