@@ -51,7 +51,8 @@ accordionButtons.forEach((button) => {
 })
 
 // Form validation
-const validator = new JustValidate(document.querySelector('.questions__form'))
+const form: HTMLFormElement | null = document.querySelector('.questions__form')
+const validator = new JustValidate(form)
 
 validator.addField(document.querySelector('#name'), [
   {
@@ -85,25 +86,23 @@ validator.addField(document.querySelector('#name'), [
       errorMessage: 'Согласие обязательно',
     }
   ])
+  .onSuccess((event: Event) => {
+    event.preventDefault()
 
-const form = document.querySelector('.questions__form')
+    if (!form) return
 
-form?.addEventListener('submit', (e) => {
-  e.preventDefault()
-
-  const submit = fetch('https://httpbin.org/post', {
-    method: 'POST'
+    fetch('https://httpbin.org/post', {
+      method: 'POST',
+    })
+      .then((response) => {
+        if (response.ok) {
+          ModalWindow('Благодарим за обращение!')
+          form.reset()
+        } else {
+          throw new Error('Не удалось отправить обращение')
+        }
+      })
+      .catch((error) => {
+        ModalWindow(error.message)
+      })
   })
-
-  submit
-    .then((response) => {
-      if (response.ok) {
-        ModalWindow('Благодарим за обращение!')
-      } else {
-        throw new Error('Не удалось отправить обращение')
-      }
-    })
-    .catch((error) => {
-      ModalWindow(error.message)
-    })
-})
