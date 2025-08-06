@@ -30,3 +30,18 @@ locationCityList.forEach((cityName) => {
     cityListButton?.classList.remove('location__city--active')
   })
 })
+
+// Accordion buttons
+const accordionButtons = document.querySelectorAll('.accordion__btn')
+
+accordionButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    accordionButtons.forEach((currentButton) => {
+      if (currentButton !== button) {
+        currentButton.classList.remove('accordion__btn--active')
+      }
+    })
+
+    button.classList.toggle('accordion__btn--active')
+  })
+})
