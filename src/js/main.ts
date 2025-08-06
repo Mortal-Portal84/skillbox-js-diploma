@@ -1,5 +1,8 @@
-import '../scss/style.scss'
 import { ModalWindow } from './components'
+// @ts-ignore
+import JustValidate from 'just-validate'
+
+import '../scss/style.scss'
 
 // Burger-menu's interactivity
 const headerButtonMenu = document.querySelector('.header__catalog-btn')
@@ -47,13 +50,48 @@ accordionButtons.forEach((button) => {
   })
 })
 
-// Form Validation
+// Form validation
+const validator = new JustValidate(document.querySelector('.questions__form'))
+
+validator.addField(document.querySelector('#name'), [
+  {
+    rule: 'required',
+    errorMessage: 'Введите ваше имя'
+  },
+  {
+    rule: 'minLength',
+    value: 3,
+    errorMessage: 'Минимальная длина три символа'
+  },
+  {
+    rule: 'maxLength',
+    value: 20,
+    errorMessage: 'Максимальная длина двадцать символов'
+  },
+])
+  .addField(document.querySelector('#email'), [
+    {
+      rule: 'required',
+      errorMessage: 'Введите вашу почту'
+    },
+    {
+      rule: 'email',
+      errorMessage: 'Почта введена неверно'
+    },
+  ])
+  .addField(document.querySelector('#agree'), [
+    {
+      rule: 'required',
+      errorMessage: 'Согласие обязательно',
+    }
+  ])
+
 const form = document.querySelector('.questions__form')
 
 form?.addEventListener('submit', (e) => {
   e.preventDefault()
 
-  const submit = fetch('https://httpbin.org/pos', {
+  const submit = fetch('https://httpbin.org/post', {
     method: 'POST'
   })
 
