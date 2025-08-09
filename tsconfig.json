@@ -21,5 +21,9 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "types": [
+    // or "vite-plugin-svg-sprite/typings/react" | "vite-plugin-svg-sprite/typings/vue"
+    "vite-plugin-svg-sprite/typings/vanilla"
+  ]
 }

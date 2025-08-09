@@ -4,6 +4,8 @@ import JustValidate from 'just-validate'
 import { getGoods } from '../api/api.ts'
 import type { Goods } from '../models'
 
+import strite from '../images/sprite/icon-basket.svg'
+
 import '../scss/style.scss'
 
 // Burger-menu's interactivity
@@ -121,5 +123,3 @@ const catalogList = document.querySelector('.catalog__list') as HTMLUListElement
 
   catalogList?.appendChild(Card(goods[1]))
 })()
-
-

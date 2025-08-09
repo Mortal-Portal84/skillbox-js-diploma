@@ -1,6 +1,6 @@
-import type { Goods } from '../../../models'
 import { TooltipItem } from './parts/TooltipItem.ts'
-import spriteUrl from '../../../images/sprite.svg'
+import type { Goods } from '../../../models'
+import { createSvgIcon } from '../../utils'
 
 export const Card = (goods: Goods) => {
   const cardListItem = document.createElement('li')
@@ -10,8 +10,7 @@ export const Card = (goods: Goods) => {
   const cardOperations = document.createElement('div')
   const basketBtn = document.createElement('a')
   const basketBtnText = document.createElement('span')
-  const basketBtnIco = document.createElement('svg')
-  const basketBtnIcoUse = document.createElement('use')
+  const basketBtnIco = createSvgIcon('icon-basket', 24, 24)
   const detailsBtn = document.createElement('a')
   const detailsBtnText = document.createElement('span')
   const cardInfo = document.createElement('div')
@@ -24,10 +23,10 @@ export const Card = (goods: Goods) => {
   const priceCurrency = document.createElement('span')
   const tooltip = document.createElement('div')
   const tooltipButton = document.createElement('button')
-  const tooltipIcon = document.createElement('svg')
-  const tooltipIconUse = document.createElement('use')
+  const tooltipIcon = createSvgIcon('icon-i', 5, 10)
   const tooltipContent = document.createElement('div')
   const tooltipText = document.createElement('span')
+  const tooltipList = document.createElement('ul')
   const tooltipItemMoscow = TooltipItem('Москва', goods.availability.moscow)
   const tooltipItemOrenburg = TooltipItem('Оренбург', goods.availability.orenburg)
   const tooltipItemStPeterburg = TooltipItem('Санкт-Петербург', goods.availability.saintPetersburg)
@@ -50,9 +49,10 @@ export const Card = (goods: Goods) => {
   priceCurrency.className = 'product-card__price-add'
   tooltip.className = 'product-card__tooltip tooltip'
   tooltipButton.className = 'tooltip__btn'
-  tooltipIcon.className = 'tooltip__icon'
+  tooltipIcon.classList.add('tooltip__icon')
   tooltipContent.className = 'tooltip__content'
   tooltipText.className = 'tooltip__text'
+  tooltipList.className = 'tooltip__list'
 
   cardImg.src = goods.image
   cardImg.width = 436
@@ -64,21 +64,12 @@ export const Card = (goods: Goods) => {
 
   basketBtn.href = '#'
   basketBtnText.textContent = 'В корзину'
-  basketBtnIco.setAttribute('width', '24')
-  basketBtnIco.setAttribute('height', '24')
-  basketBtnIco.setAttribute('aria-hidden', 'true')
-  basketBtnIcoUse.setAttribute('xlink:href', `${spriteUrl}#icon-basket`)
-
-  tooltipIcon.setAttribute('width', '5')
-  tooltipIcon.setAttribute('height', '10')
-  tooltipIcon.setAttribute('aria-hidden', 'true')
-  tooltipIconUse.setAttribute('xlink:href', '../../../images/sprite.svg#icon-i')
 
   cardTitle.textContent = goods.name
   oldPriceCurrency.textContent = '₽'
   priceCurrency.textContent = '₽'
-  oldPriceValue.textContent = `${String(goods.price.old)} `
-  priceValue.textContent = `${String(goods.price.new)} `
+  oldPriceValue.textContent = `${String(goods.price.old.toLocaleString('ru-RU'))} `
+  priceValue.textContent = `${String(goods.price.new.toLocaleString('ru-RU'))} `
   tooltipText.textContent = 'Наличие товара по городам:'
 
   cardListItem.appendChild(cardProduct)
@@ -86,16 +77,14 @@ export const Card = (goods: Goods) => {
   cardProductWrapper.append(cardImg, cardOperations)
   cardOperations.append(basketBtn, detailsBtn)
   basketBtn.append(basketBtnText, basketBtnIco)
-  basketBtnIco.appendChild(basketBtnIcoUse)
   detailsBtn.append(detailsBtnText)
   cardInfo.append(cardTitle, oldPrice, price, tooltip)
   oldPrice.append(oldPriceValue, oldPriceCurrency)
   price.append(priceValue, priceCurrency)
-  tooltip.append(tooltipButton)
+  tooltip.append(tooltipButton, tooltipContent)
   tooltipButton.append(tooltipIcon)
-  tooltipIcon.appendChild(tooltipIconUse)
+  tooltipContent.append(tooltipText, tooltipList)
+  tooltipList.append(tooltipItemMoscow, tooltipItemOrenburg, tooltipItemStPeterburg)
 
   return cardListItem
 }
-
-console.log(spriteUrl)
