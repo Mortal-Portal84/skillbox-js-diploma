@@ -18,7 +18,7 @@
   }
 
   &__content {
-    position: absolute;
+    //position: absolute;
     min-width: 208px;
     background-color: $color-white;
     border-radius: 8px;
@@ -61,4 +61,16 @@
       top: calc(50% - 3px);
     }
   }
+}
+
+[data-tippy-root] .tooltip__content {
+  position: relative;
+  top: auto;
+  right: auto;
+  transform: none;
+  display: block !important;
+}
+
+.tippy-content {
+  padding: 0;
 }

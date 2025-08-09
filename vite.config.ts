@@ -1,5 +1,4 @@
 import { defineConfig } from 'vite'
-import createSvgSpritePlugin from 'vite-plugin-svg-sprite';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -7,10 +6,4 @@ export default defineConfig({
     host: '0.0.0.0',
     open: true
   },
-  plugins: [
-    createSvgSpritePlugin({
-      exportType: 'vanilla',
-      include: '**/icons/*.svg'
-    }),
-  ],
 })

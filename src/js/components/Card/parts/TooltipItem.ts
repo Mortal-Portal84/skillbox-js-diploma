@@ -7,7 +7,7 @@ export const TooltipItem = (city: string, value: number) => {
   tooltipText.className = 'tooltip__text'
   tooltipValue.className = 'tooltip__count'
 
-  tooltipText.textContent = `${city} :`
+  tooltipText.textContent = `${city}: `
   tooltipValue.textContent = String(value)
 
   tooltipItem.appendChild(tooltipText)

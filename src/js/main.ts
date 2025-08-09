@@ -1,10 +1,9 @@
 import { Card, ModalWindow } from './components'
 // @ts-ignore
 import JustValidate from 'just-validate'
+
 import { getGoods } from '../api/api.ts'
 import type { Goods } from '../models'
-
-import strite from '../images/sprite/icon-basket.svg'
 
 import '../scss/style.scss'
 
@@ -121,5 +120,9 @@ const catalogList = document.querySelector('.catalog__list') as HTMLUListElement
 (async () => {
   goods = await getGoods()
 
-  catalogList?.appendChild(Card(goods[1]))
+  catalogList?.replaceChildren()
+
+  goods.forEach((good) => {
+    catalogList?.append(Card(good))
+  })
 })()

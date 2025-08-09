@@ -1,3 +1,7 @@
+import tippy from 'tippy.js'
+import 'tippy.js/dist/tippy.css'
+import 'tippy.js/themes/light.css'
+
 import { TooltipItem } from './parts/TooltipItem.ts'
 import type { Goods } from '../../../models'
 import { createSvgIcon } from '../../utils'
@@ -85,6 +89,22 @@ export const Card = (goods: Goods) => {
   tooltipButton.append(tooltipIcon)
   tooltipContent.append(tooltipText, tooltipList)
   tooltipList.append(tooltipItemMoscow, tooltipItemOrenburg, tooltipItemStPeterburg)
+
+  tippy(tooltipButton, {
+    content (reference) {
+      const tooltipContent = reference.parentElement?.querySelector('.tooltip__content')
+      if (!tooltipContent) return ''
+
+      const clone = tooltipContent.cloneNode(true) as HTMLElement
+      clone.style.display = 'block'
+      return clone
+    },
+    allowHTML: true,
+    arrow: false,
+    placement: 'top-end',
+    theme: 'light',
+    trigger: 'click',
+  })
 
   return cardListItem
 }
