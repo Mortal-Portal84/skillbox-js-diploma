@@ -1,6 +1,8 @@
-import { ModalWindow } from './components'
+import { Card, ModalWindow } from './components'
 // @ts-ignore
 import JustValidate from 'just-validate'
+import { getGoods } from '../api/api.ts'
+import type { Goods } from '../models'
 
 import '../scss/style.scss'
 
@@ -106,3 +108,18 @@ validator.addField(document.querySelector('#name'), [
         ModalWindow(error.message)
       })
   })
+
+
+
+// Get goods from API
+let goods: Goods[]
+
+const catalogList = document.querySelector('.catalog__list') as HTMLUListElement
+
+(async () => {
+  goods = await getGoods()
+
+  catalogList?.appendChild(Card(goods[1]))
+})()
+
+
