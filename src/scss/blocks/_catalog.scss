@@ -66,9 +66,10 @@
     transition: opacity $transition;
     border: none;
     background-color: transparent;
+    opacity: 0.5;
 
     &:hover {
-      opacity: 0.7;
+      opacity: 1;
     }
 
     &:disabled {
@@ -77,6 +78,10 @@
 
     &:not(:disabled) {
       color: $color-black;
+    }
+
+    &.active {
+      opacity: 1;
     }
   }
 }

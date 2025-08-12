@@ -1,1 +1,3 @@
-export * from './Goods.ts'
+export * from './goods'
+export * from './params'
+export * from './lamp'

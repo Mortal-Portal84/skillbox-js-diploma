@@ -42,7 +42,7 @@
     },
     "image": "src/images/item-3.png",
     "availability": {
-      "moscow": 10,
+      "moscow": 0,
       "orenburg": 20,
       "saintPetersburg": 17
     },
@@ -77,7 +77,7 @@
     "image": "src/images/item-5.png",
     "availability": {
       "moscow": 10,
-      "orenburg": 20,
+      "orenburg": 0,
       "saintPetersburg": 17
     },
     "type": ["pendant", "ceiling", "overhead"],
@@ -127,7 +127,7 @@
     },
     "image": "src/images/item-8.png",
     "availability": {
-      "moscow": 0,
+      "moscow": 1,
       "orenburg": 0,
       "saintPetersburg": 0
     },
@@ -163,7 +163,7 @@
     "availability": {
       "moscow": 15,
       "orenburg": 112,
-      "saintPetersburg": 13
+      "saintPetersburg": 0
     },
     "type": ["pendant", "nightlights"],
     "rating": 123,
@@ -213,7 +213,7 @@
     "image": "src/images/item-13.png",
     "availability": {
       "moscow": 10,
-      "orenburg": 20,
+      "orenburg": 0,
       "saintPetersburg": 17
     },
     "type": ["point", "nightlights"],
@@ -298,7 +298,7 @@
     "image": "src/images/item-2.png",
     "availability": {
       "moscow": 15,
-      "orenburg": 25,
+      "orenburg": 0,
       "saintPetersburg": 13
     },
     "type": ["pendant", "nightlights"],

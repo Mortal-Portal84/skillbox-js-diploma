@@ -1,4 +1,4 @@
-type LampKind = "pendant"| "ceiling" | "nightlights" | "point" | "overhead"
+import type { Lamp } from './lamp.ts'
 
 export type Goods = {
   id: number
@@ -13,7 +13,7 @@ export type Goods = {
     orenburg: number
     saintPetersburg: number
   }
-  type: LampKind[]
+  type: Lamp[]
   rating: number
   goodsOfDay: boolean
 }
