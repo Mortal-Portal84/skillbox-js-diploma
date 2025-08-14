@@ -72,7 +72,7 @@ validator.addField(document.querySelector('#name'), [
     rule: 'maxLength',
     value: 20,
     errorMessage: 'Максимальная длина двадцать символов'
-  },
+  }
 ])
   .addField(document.querySelector('#email'), [
     {
@@ -82,12 +82,12 @@ validator.addField(document.querySelector('#name'), [
     {
       rule: 'email',
       errorMessage: 'Почта введена неверно'
-    },
+    }
   ])
   .addField(document.querySelector('#agree'), [
     {
       rule: 'required',
-      errorMessage: 'Согласие обязательно',
+      errorMessage: 'Согласие обязательно'
     }
   ])
   .onSuccess((event: Event) => {
@@ -96,7 +96,7 @@ validator.addField(document.querySelector('#name'), [
     if (!form) return
 
     fetch('https://httpbin.org/post', {
-      method: 'POST',
+      method: 'POST'
     })
       .then((response) => {
         if (response.ok) {
@@ -121,8 +121,8 @@ const citySelectButton = document.querySelector('.location__city-name') as HTMLB
 const inStockInput = document.getElementById('instock') as HTMLInputElement
 const allItemInput = document.getElementById('all-item') as HTMLInputElement
 const paginationList = document.querySelector('.catalog__pagination') as HTMLOListElement
-const paginationButtons = document.querySelectorAll('.catalog__pagination-link') as NodeListOf<HTMLButtonElement>
 const lampsCountList = document.querySelectorAll('.custom-checkbox__count') as NodeListOf<HTMLSpanElement>
+const container = document.querySelector('.container') as HTMLDivElement
 
 const insertInputValues = (): void => {
   const params = getParams()
@@ -161,8 +161,6 @@ const insertInputValues = (): void => {
     default:
       citySelectButton.textContent = 'Оренбург'
   }
-
-  paginationButtons[(params.top + params.skip) / params.top - 1].classList.add('active')
 }
 
 // Work with URL params
@@ -202,25 +200,26 @@ const initialize = (): void => {
 initialize()
 
 const refetch = async (): Promise<void> => {
-  const params = getParams()
+  container.scrollIntoView({ behavior: 'smooth', block: 'start' })
 
-  const goods= await getGoods(params)
+  const params = getParams()
+  const goods = await getGoods(params)
+  const totalPage = Math.ceil(goods.count / params.top)
+  const currentPage = (params.top + params.skip) / params.top - 1
 
   catalogList.replaceChildren()
-
-  goods.value.forEach((good) => {
-    catalogList.append(Card(good))
-  })
-
-  console.log(goods.count)
-
-  const totalPage = Math.ceil(goods.count / params.top)
   paginationList.replaceChildren()
 
-  for (let i = 1; i <= totalPage; i++) {
-    const page = PaginationButton(i, true)
-    paginationList.append(page)
-  }
+  setTimeout(() => {
+    catalogList.append(...goods.value.map((good) => Card(good)))
+
+    if (totalPage > 1)
+      paginationList.append(
+        ...new Array(totalPage)
+          .fill(null)
+          .map((_, index) => PaginationButton(index, currentPage === index, refetch))
+      )
+  }, 0)
 }
 
 void refetch()
