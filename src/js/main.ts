@@ -1,10 +1,10 @@
-import { Card, ModalWindow } from './components'
+import { Card, ModalWindow, PaginationButton } from './components'
 // @ts-ignore
 import JustValidate from 'just-validate'
 
 import { getGoods, getParams, setParamsFromObject, updateParam } from '../api'
 import { INITIAL_PARAMS } from '../constants'
-import { type Goods, Lamp, OrderBy, Warehouse } from '../models'
+import { Lamp, OrderBy, Warehouse } from '../models'
 
 import '../scss/style.scss'
 
@@ -120,6 +120,7 @@ const citySelectButtons = document.querySelectorAll('.location__sublink') as Nod
 const citySelectButton = document.querySelector('.location__city-name') as HTMLButtonElement
 const inStockInput = document.getElementById('instock') as HTMLInputElement
 const allItemInput = document.getElementById('all-item') as HTMLInputElement
+const paginationList = document.querySelector('.catalog__pagination') as HTMLOListElement
 const paginationButtons = document.querySelectorAll('.catalog__pagination-link') as NodeListOf<HTMLButtonElement>
 const lampsCountList = document.querySelectorAll('.custom-checkbox__count') as NodeListOf<HTMLSpanElement>
 
@@ -167,7 +168,7 @@ const insertInputValues = (): void => {
 // Work with URL params
 const updateTotalCount = async (): Promise<void> => {
   const { availability, availableOnly } = getParams()
-  const goods: Goods[] = await getGoods({ availability, availableOnly })
+  const goods = await getGoods({ availability, availableOnly })
 
   const total: Record<Lamp, number> = {
     pendant: 0,
@@ -177,7 +178,7 @@ const updateTotalCount = async (): Promise<void> => {
     nightlights: 0
   }
 
-  goods.forEach((good) => {
+  goods.value.forEach((good) => {
     good.type.forEach((type) => {
       total[type] = total[type] + 1
     })
@@ -203,18 +204,23 @@ initialize()
 const refetch = async (): Promise<void> => {
   const params = getParams()
 
-  const goods = await getGoods(params)
+  const goods= await getGoods(params)
 
   catalogList.replaceChildren()
 
-  goods.forEach((good) => {
+  goods.value.forEach((good) => {
     catalogList.append(Card(good))
   })
 
-  // TODO: pagination
-  // map()
-  // goods.length / params.top
-  // Number.isInteger() +0 : +1
+  console.log(goods.count)
+
+  const totalPage = Math.ceil(goods.count / params.top)
+  paginationList.replaceChildren()
+
+  for (let i = 1; i <= totalPage; i++) {
+    const page = PaginationButton(i, true)
+    paginationList.append(page)
+  }
 }
 
 void refetch()
@@ -293,22 +299,22 @@ citySelectButtons.forEach((button) => button.addEventListener('click', () => {
   })
 })
 
-const removeActiveClass = (index: number) => {
-  paginationButtons.forEach((button, idx) => {
-    if (index !== idx) button.classList.remove('active')
-  })
-}
+// const removeActiveClass = (index: number) => {
+//   paginationButtons.forEach((button, idx) => {
+//     if (index !== idx) button.classList.remove('active')
+//   })
+// }
 
-paginationButtons.forEach((button, index) => {
-  button.addEventListener('click', () => {
-    const value = String((Number(button.textContent) - 1) * Number(new URLSearchParams(window.location.search).get('top')))
-
-    updateParam('skip', value)
-
-    button.classList.add('active')
-
-    removeActiveClass(index)
-
-    void refetch()
-  })
-})
+// paginationButtons.forEach((button, index) => {
+//   button.addEventListener('click', () => {
+//     const value = String((Number(button.textContent) - 1) * Number(new URLSearchParams(window.location.search).get('top')))
+//
+//     updateParam('skip', value)
+//
+//     button.classList.add('active')
+//
+//     removeActiveClass(index)
+//
+//     void refetch()
+//   })
+// })
