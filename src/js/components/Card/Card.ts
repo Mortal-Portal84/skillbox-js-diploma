@@ -67,6 +67,7 @@ export const Card = (goods: Goods) => {
   detailsBtnText.textContent = 'Подробнее'
 
   basketBtn.href = '#'
+  basketBtn.dataset.id = String(goods.id)
   basketBtnText.textContent = 'В корзину'
 
   cardTitle.textContent = goods.name

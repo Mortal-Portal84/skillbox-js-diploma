@@ -4,7 +4,7 @@ import JustValidate from 'just-validate'
 
 import { getGoods, getParams, setParamsFromObject, updateParam } from '../api'
 import { INITIAL_PARAMS } from '../constants'
-import { Lamp, OrderBy, Warehouse } from '../models'
+import { type Goods, Lamp, OrderBy, Warehouse } from '../models'
 
 import '../scss/style.scss'
 
@@ -123,6 +123,10 @@ const allItemInput = document.getElementById('all-item') as HTMLInputElement
 const paginationList = document.querySelector('.catalog__pagination') as HTMLOListElement
 const lampsCountList = document.querySelectorAll('.custom-checkbox__count') as NodeListOf<HTMLSpanElement>
 const container = document.querySelector('.container') as HTMLDivElement
+const basketButton = document.querySelector('.header__user-btn') as HTMLButtonElement
+const basketWrapper = document.querySelector('.header__user-item') as HTMLLIElement
+let currentGoods: Goods[] = []
+const { basket, addItem } = Basket()
 
 const insertInputValues = (): void => {
   const params = getParams()
@@ -206,6 +210,7 @@ const refetch = async (): Promise<void> => {
   const goods = await getGoods(params)
   const totalPage = Math.ceil(goods.count / params.top)
   const currentPage = (params.top + params.skip) / params.top - 1
+  currentGoods = goods.value
 
   catalogList.replaceChildren()
   paginationList.replaceChildren()
@@ -299,12 +304,19 @@ citySelectButtons.forEach((button) => button.addEventListener('click', () => {
 })
 
 // Basket
-const basketButton = document.querySelector('.header__user-btn') as HTMLButtonElement
-const basketWrapper = document.querySelector('.header__user-item') as HTMLLIElement
-const basket = Basket()
-
 basketWrapper.append(basket)
 
 basketButton.addEventListener('click', () => {
   basket.classList.toggle('basket--active')
+})
+
+document.addEventListener('click', (event) => {
+  const target = event.target as HTMLElement
+  const button = target.closest<HTMLAnchorElement>('.product-card__link.btn.btn--icon')
+
+  if (button) {
+    event.preventDefault()
+    const item = currentGoods.find((good) => good.id === Number(button.dataset.id))
+    if (item) addItem(item)
+  }
 })
