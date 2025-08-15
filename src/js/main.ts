@@ -1,4 +1,4 @@
-import { BasketItem, Card, ModalWindow, PaginationButton } from './components'
+import { Basket, Card, ModalWindow, PaginationButton } from './components'
 // @ts-ignore
 import JustValidate from 'just-validate'
 
@@ -299,9 +299,12 @@ citySelectButtons.forEach((button) => button.addEventListener('click', () => {
 })
 
 // Basket
-const basketBtn = document.querySelector('.header__user-btn') as HTMLButtonElement
-const basketElement = document.querySelector('.basket') as HTMLUListElement
+const basketButton = document.querySelector('.header__user-btn') as HTMLButtonElement
+const basketWrapper = document.querySelector('.header__user-item') as HTMLLIElement
+const basket = Basket()
 
-basketBtn.addEventListener('click', () => {
-  basketElement.classList.toggle('basket--active')
+basketWrapper.append(basket)
+
+basketButton.addEventListener('click', () => {
+  basket.classList.toggle('basket--active')
 })

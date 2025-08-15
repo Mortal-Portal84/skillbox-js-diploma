@@ -29,7 +29,7 @@
     flex-direction: column;
     gap: 16px;
     list-style: none;
-    margin: 0 0 16px;
+    margin: 0;
     padding: 0;
   }
 
@@ -71,4 +71,8 @@
       width: 60px;
     }
   }
+}
+
+.basket__link.btn {
+  margin-top: 16px;
 }

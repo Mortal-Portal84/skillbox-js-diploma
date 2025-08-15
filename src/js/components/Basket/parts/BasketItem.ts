@@ -1,7 +1,7 @@
-import type { Goods } from '../../models'
-import { createSvgIcon } from '../utils'
+import type { Goods } from '../../../../models'
+import { createSvgIcon } from '../../../utils'
 
-export const BasketItem = (item: Partial<Goods>) => {
+export const BasketItem = (item: Goods, onDelete: (id: string, element: HTMLLIElement) => void) => {
   const basketItem = document.createElement('li')
   const basketImgWrapper = document.createElement('div')
   const basketImg = document.createElement('img')
@@ -23,6 +23,11 @@ export const BasketItem = (item: Partial<Goods>) => {
   basketImg.alt = "Фотография товара"
   basketName.textContent = item.name as string
   basketPrice.textContent = String(item.price?.new)
+  basketDeleteItemButton.type = 'button'
+
+  basketDeleteItemButton.addEventListener('click', () => {
+    onDelete(String(item.id), basketItem)
+  })
 
   basketItem.append(basketImgWrapper, basketName, basketPrice, basketDeleteItemButton)
   basketImgWrapper.append(basketImg)
