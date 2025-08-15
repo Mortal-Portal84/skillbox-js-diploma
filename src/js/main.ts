@@ -1,4 +1,4 @@
-import { Card, ModalWindow, PaginationButton } from './components'
+import { BasketItem, Card, ModalWindow, PaginationButton } from './components'
 // @ts-ignore
 import JustValidate from 'just-validate'
 
@@ -298,22 +298,10 @@ citySelectButtons.forEach((button) => button.addEventListener('click', () => {
   })
 })
 
-// const removeActiveClass = (index: number) => {
-//   paginationButtons.forEach((button, idx) => {
-//     if (index !== idx) button.classList.remove('active')
-//   })
-// }
+// Basket
+const basketBtn = document.querySelector('.header__user-btn') as HTMLButtonElement
+const basketElement = document.querySelector('.basket') as HTMLUListElement
 
-// paginationButtons.forEach((button, index) => {
-//   button.addEventListener('click', () => {
-//     const value = String((Number(button.textContent) - 1) * Number(new URLSearchParams(window.location.search).get('top')))
-//
-//     updateParam('skip', value)
-//
-//     button.classList.add('active')
-//
-//     removeActiveClass(index)
-//
-//     void refetch()
-//   })
-// })
+basketBtn.addEventListener('click', () => {
+  basketElement.classList.toggle('basket--active')
+})
