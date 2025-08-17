@@ -7,6 +7,7 @@ import { INITIAL_PARAMS } from '../constants'
 import { type Goods, Lamp, OrderBy, Warehouse } from '../models'
 
 import '../scss/style.scss'
+import { Slider } from './components/Slider.ts'
 
 // Burger-menu's interactivity
 const headerButtonMenu = document.querySelector('.header__catalog-btn')
@@ -126,6 +127,7 @@ const container = document.querySelector('.container') as HTMLDivElement
 const basketButton = document.querySelector('.header__user-btn') as HTMLButtonElement
 const basketWrapper = document.querySelector('.header__user-item') as HTMLLIElement
 let currentGoods: Goods[] = []
+let goodsOfDayList: Goods[] = []
 const { basket, addItem } = Basket()
 
 const insertInputValues = (): void => {
@@ -211,6 +213,7 @@ const refetch = async (): Promise<void> => {
   const totalPage = Math.ceil(goods.count / params.top)
   const currentPage = (params.top + params.skip) / params.top - 1
   currentGoods = goods.value
+  goodsOfDayList = goods.value.filter((item) => item.goodsOfDay)
 
   catalogList.replaceChildren()
   paginationList.replaceChildren()
@@ -225,6 +228,8 @@ const refetch = async (): Promise<void> => {
           .map((_, index) => PaginationButton(index, currentPage === index, refetch))
       )
   }, 0)
+
+  Slider(goodsOfDayList)
 }
 
 void refetch()
