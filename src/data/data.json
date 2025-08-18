@@ -9,8 +9,8 @@
     "image": "src/images/item-1.png",
     "availability": {
       "moscow": 0,
-      "orenburg": 20,
-      "saintPetersburg": 17
+      "orenburg": 12,
+      "saintPetersburg": 0
     },
     "type": ["pendant", "nightlights"],
     "rating": 30,

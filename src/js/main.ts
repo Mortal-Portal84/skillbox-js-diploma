@@ -172,6 +172,12 @@ const insertInputValues = (): void => {
 const updateTotalCount = async (): Promise<void> => {
   const { availability, availableOnly } = getParams()
   const goods = await getGoods({ availability, availableOnly })
+  goodsOfDayList = goods.value.filter((item) =>
+    item.goodsOfDay && item.availability[availability as keyof typeof Warehouse])
+
+  console.log(goodsOfDayList)
+
+  Slider(goodsOfDayList)
 
   const total: Record<Lamp, number> = {
     pendant: 0,
@@ -210,9 +216,6 @@ const refetch = async (): Promise<void> => {
   const totalPage = Math.ceil(goods.count / params.top)
   const currentPage = (params.top + params.skip) / params.top - 1
   currentGoods = goods.value
-  goodsOfDayList = goods.goodsOfDay
-
-  console.log(goodsOfDayList)
 
   catalogList.replaceChildren()
   paginationList.replaceChildren()
@@ -227,8 +230,6 @@ const refetch = async (): Promise<void> => {
           .map((_, index) => PaginationButton(index, currentPage === index, refetch))
       )
   }, 0)
-
-  Slider(goodsOfDayList)
 }
 
 void refetch()
