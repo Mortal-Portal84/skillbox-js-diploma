@@ -123,7 +123,6 @@ const inStockInput = document.getElementById('instock') as HTMLInputElement
 const allItemInput = document.getElementById('all-item') as HTMLInputElement
 const paginationList = document.querySelector('.catalog__pagination') as HTMLOListElement
 const lampsCountList = document.querySelectorAll('.custom-checkbox__count') as NodeListOf<HTMLSpanElement>
-const container = document.querySelector('.container') as HTMLDivElement
 const basketButton = document.querySelector('.header__user-btn') as HTMLButtonElement
 const basketWrapper = document.querySelector('.header__user-item') as HTMLLIElement
 let currentGoods: Goods[] = []
@@ -206,14 +205,14 @@ const initialize = (): void => {
 initialize()
 
 const refetch = async (): Promise<void> => {
-  container.scrollIntoView({ behavior: 'smooth', block: 'start' })
-
   const params = getParams()
   const goods = await getGoods(params)
   const totalPage = Math.ceil(goods.count / params.top)
   const currentPage = (params.top + params.skip) / params.top - 1
   currentGoods = goods.value
-  goodsOfDayList = goods.value.filter((item) => item.goodsOfDay)
+  goodsOfDayList = goods.goodsOfDay
+
+  console.log(goodsOfDayList)
 
   catalogList.replaceChildren()
   paginationList.replaceChildren()
@@ -251,7 +250,6 @@ resetFiltersButton.addEventListener('click', () => {
   checkboxes.forEach((checkbox) => checkbox.checked = false)
   updateParam('type', INITIAL_PARAMS.type.join(','))
   updateParam('availableOnly', String(INITIAL_PARAMS.availableOnly))
-  // updateParam('orderBy', INITIAL_PARAMS.orderBy)
   updateParam('top', String(INITIAL_PARAMS.top))
   updateParam('skip', String(INITIAL_PARAMS.skip))
 

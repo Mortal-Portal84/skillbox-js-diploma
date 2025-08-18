@@ -3,7 +3,8 @@ import { INITIAL_PARAMS } from '../constants'
 
 const DELAY = 1_000
 
-export const getGoods = async (params: Partial<Params>): Promise<{ value: Goods[]; count: number }> =>
+export const getGoods = async (params: Partial<Params>):
+  Promise<{ value: Goods[]; goodsOfDay:Goods[]; count: number }> =>
   new Promise((resolve) => {
     setTimeout(async () => {
       const response = await fetch('/src/data/data.json')
@@ -13,6 +14,8 @@ export const getGoods = async (params: Partial<Params>): Promise<{ value: Goods[
       }
 
       const goods: Goods[] = await response.json()
+
+      const goodsOfDay: Goods[] = [...goods].filter((item) => item.goodsOfDay)
 
       let value: Goods[] = [...goods]
 
@@ -45,7 +48,7 @@ export const getGoods = async (params: Partial<Params>): Promise<{ value: Goods[
 
       if (params.top || params.skip) value = value.slice(params.skip, (params.skip ?? 0) + (params.top ?? 0))
 
-      resolve({ value, count })
+      resolve({ value, goodsOfDay, count })
     }, DELAY)
   })
 
