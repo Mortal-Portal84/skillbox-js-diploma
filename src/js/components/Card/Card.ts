@@ -104,7 +104,6 @@ export const Card = (goods: Goods) => {
     arrow: false,
     placement: 'top-end',
     theme: 'light',
-    trigger: 'click',
   })
 
   return cardListItem

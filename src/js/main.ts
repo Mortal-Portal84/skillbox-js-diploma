@@ -108,7 +108,7 @@ validator.addField(document.querySelector('#name'), [
         }
       })
       .catch((error) => {
-        ModalWindow(error.message)
+        ModalWindow(error.message, error)
       })
   })
 

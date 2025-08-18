@@ -1,4 +1,4 @@
-export * from './ModalWindow'
+export * from './ModalWindow/ModalWindow'
 export * from './Card/Card'
 export * from './PaginationButton'
 export * from './Basket/Basket'
