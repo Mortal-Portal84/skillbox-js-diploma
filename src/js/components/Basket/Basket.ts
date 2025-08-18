@@ -1,5 +1,5 @@
 import type { Goods } from '../../../models'
-import { BasketItem } from './parts/BasketItem.ts'
+import { BasketItem } from './parts/BasketItem'
 
 export const Basket = () => {
   const basketCounter = document.querySelector('.header__user-count') as HTMLSpanElement

@@ -2,7 +2,7 @@ import tippy from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
 import 'tippy.js/themes/light.css'
 
-import { TooltipItem } from './parts/TooltipItem.ts'
+import { TooltipItem } from './parts/TooltipItem'
 import type { Goods } from '../../../models'
 import { createSvgIcon } from '../../utils'
 

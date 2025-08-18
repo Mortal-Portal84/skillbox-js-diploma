@@ -4,6 +4,7 @@ import { Navigation } from 'swiper/modules'
 import 'swiper/css'
 // @ts-ignore
 import 'swiper/css/navigation'
+
 import type { Goods } from '../../models'
 import { Card } from './Card/Card'
 
@@ -22,6 +23,7 @@ export const Slider = (sliderListItems: Goods[]) => {
   swiper.init()
 
   const sliderList = document.querySelector('.day-products__list')
+
   sliderList?.replaceChildren()
 
   sliderListItems.forEach((item) => {

@@ -1,4 +1,4 @@
-import { Basket, Card, ModalWindow, PaginationButton } from './components'
+import { Basket, Card, ModalWindow, PaginationButton, Slider } from './components'
 // @ts-ignore
 import JustValidate from 'just-validate'
 
@@ -7,112 +7,16 @@ import { INITIAL_PARAMS } from '../constants'
 import { type Goods, Lamp, OrderBy, Warehouse } from '../models'
 
 import '../scss/style.scss'
-import { Slider } from './components/Slider.ts'
 
-// Burger-menu's interactivity
+// Selectors and data-stores
 const headerButtonMenu = document.querySelector('.header__catalog-btn')
 const burgerMenu = document.querySelector('.main-menu')
 const closeBurgerMenuBtn = document.querySelector('.main-menu__close')
-
-headerButtonMenu?.addEventListener('click', () => {
-  burgerMenu?.classList.add('main-menu--active')
-})
-
-closeBurgerMenuBtn?.addEventListener('click', () => {
-  burgerMenu?.classList.remove('main-menu--active')
-})
-
-// City location chose
 const cityListButton = document.querySelector('.location__city')
 const locationCityName = document.querySelector('.location__city-name')
 const locationCityList = document.querySelectorAll('.location__sublink')
-
-cityListButton?.addEventListener('click', () => {
-  cityListButton?.classList.toggle('location__city--active')
-})
-
-locationCityList.forEach((cityName) => {
-  cityName.addEventListener('click', () => {
-    if (!locationCityName) return
-
-    locationCityName.textContent = cityName.textContent
-    cityListButton?.classList.remove('location__city--active')
-  })
-})
-
-// Accordion buttons
 const accordionButtons = document.querySelectorAll('.accordion__btn')
-
-accordionButtons.forEach((button) => {
-  button.addEventListener('click', () => {
-    accordionButtons.forEach((currentButton) => {
-      if (currentButton !== button) {
-        currentButton.classList.remove('accordion__btn--active')
-      }
-    })
-
-    button.classList.toggle('accordion__btn--active')
-  })
-})
-
-// Form validation
 const form: HTMLFormElement | null = document.querySelector('.questions__form')
-const validator = new JustValidate(form)
-
-validator.addField(document.querySelector('#name'), [
-  {
-    rule: 'required',
-    errorMessage: 'Введите ваше имя'
-  },
-  {
-    rule: 'minLength',
-    value: 3,
-    errorMessage: 'Минимальная длина три символа'
-  },
-  {
-    rule: 'maxLength',
-    value: 20,
-    errorMessage: 'Максимальная длина двадцать символов'
-  }
-])
-  .addField(document.querySelector('#email'), [
-    {
-      rule: 'required',
-      errorMessage: 'Введите вашу почту'
-    },
-    {
-      rule: 'email',
-      errorMessage: 'Почта введена неверно'
-    }
-  ])
-  .addField(document.querySelector('#agree'), [
-    {
-      rule: 'required',
-      errorMessage: 'Согласие обязательно'
-    }
-  ])
-  .onSuccess((event: Event) => {
-    event.preventDefault()
-
-    if (!form) return
-
-    fetch('https://httpbin.org/post', {
-      method: 'POST'
-    })
-      .then((response) => {
-        if (response.ok) {
-          ModalWindow('Благодарим за обращение!')
-          form.reset()
-        } else {
-          throw new Error('Не удалось отправить обращение')
-        }
-      })
-      .catch((error) => {
-        ModalWindow(error.message, error)
-      })
-  })
-
-// Selectors
 const catalogList = document.querySelector('.catalog__list') as HTMLUListElement
 const checkboxes: NodeListOf<HTMLInputElement> = document.querySelectorAll('.custom-checkbox__field')
 const resetFiltersButton = document.querySelector('.catalog-form__reset') as HTMLButtonElement
@@ -129,6 +33,7 @@ let currentGoods: Goods[] = []
 let goodsOfDayList: Goods[] = []
 const { basket, addItem } = Basket()
 
+// Work with URL params and initialization
 const insertInputValues = (): void => {
   const params = getParams()
 
@@ -168,14 +73,11 @@ const insertInputValues = (): void => {
   }
 }
 
-// Work with URL params
 const updateTotalCount = async (): Promise<void> => {
   const { availability, availableOnly } = getParams()
   const goods = await getGoods({ availability, availableOnly })
   goodsOfDayList = goods.value.filter((item) =>
     item.goodsOfDay && item.availability[availability as keyof typeof Warehouse])
-
-  console.log(goodsOfDayList)
 
   Slider(goodsOfDayList)
 
@@ -234,7 +136,7 @@ const refetch = async (): Promise<void> => {
 
 void refetch()
 
-//Inputs
+//Inputs with Pagination
 let activeTypes: Lamp[] = []
 
 checkboxes.forEach((checkbox) => checkbox.addEventListener('change', () => {
@@ -324,3 +226,96 @@ document.addEventListener('click', (event) => {
     if (item) addItem(item)
   }
 })
+
+// Burger-menu's interactivity
+headerButtonMenu?.addEventListener('click', () => {
+  burgerMenu?.classList.add('main-menu--active')
+})
+
+closeBurgerMenuBtn?.addEventListener('click', () => {
+  burgerMenu?.classList.remove('main-menu--active')
+})
+
+// City location chose
+cityListButton?.addEventListener('click', () => {
+  cityListButton?.classList.toggle('location__city--active')
+})
+
+locationCityList.forEach((cityName) => {
+  cityName.addEventListener('click', () => {
+    if (!locationCityName) return
+
+    locationCityName.textContent = cityName.textContent
+    cityListButton?.classList.remove('location__city--active')
+  })
+})
+
+// Accordion buttons
+accordionButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    accordionButtons.forEach((currentButton) => {
+      if (currentButton !== button) {
+        currentButton.classList.remove('accordion__btn--active')
+      }
+    })
+
+    button.classList.toggle('accordion__btn--active')
+  })
+})
+
+// Form validation
+const validator = new JustValidate(form)
+
+validator.addField(document.querySelector('#name'), [
+  {
+    rule: 'required',
+    errorMessage: 'Введите ваше имя'
+  },
+  {
+    rule: 'minLength',
+    value: 3,
+    errorMessage: 'Минимальная длина три символа'
+  },
+  {
+    rule: 'maxLength',
+    value: 20,
+    errorMessage: 'Максимальная длина двадцать символов'
+  }
+])
+  .addField(document.querySelector('#email'), [
+    {
+      rule: 'required',
+      errorMessage: 'Введите вашу почту'
+    },
+    {
+      rule: 'email',
+      errorMessage: 'Почта введена неверно'
+    }
+  ])
+  .addField(document.querySelector('#agree'), [
+    {
+      rule: 'required',
+      errorMessage: 'Согласие обязательно'
+    }
+  ])
+  .onSuccess((event: Event) => {
+    event.preventDefault()
+
+    if (!form) return
+
+    fetch('https://httpbin.org/post', {
+      method: 'POST'
+    })
+      .then((response) => {
+        if (response.ok) {
+          ModalWindow('Благодарим за обращение!')
+          form.reset()
+        } else {
+          throw new Error('Не удалось отправить обращение')
+        }
+      })
+      .catch((error) => {
+        ModalWindow(error.message, error)
+      })
+  })
+
