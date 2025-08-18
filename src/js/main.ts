@@ -238,7 +238,7 @@ void refetch()
 let activeTypes: Lamp[] = []
 
 checkboxes.forEach((checkbox) => checkbox.addEventListener('change', () => {
-  if (checkbox.checked) activeTypes.push(checkbox.value as Lamp)
+  if (checkbox.checked && checkbox.id !== 'agree') activeTypes.push(checkbox.value as Lamp)
   else activeTypes = activeTypes.filter((type) => type !== checkbox.value as Lamp)
 
   updateParam('type', activeTypes.join(','))
